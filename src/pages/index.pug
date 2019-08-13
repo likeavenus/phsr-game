@@ -1,0 +1,11 @@
+extends template/_layout
+include ../components/game/game
+
+//- include ../components/hello/hello
+block vars
+  - var title = "Главная";
+
+
+block content
+  +game()
+  //- +hello()
