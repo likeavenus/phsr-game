@@ -1,75 +1,67 @@
 export default function game() {
-    const game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser', { preload: preload, create: create, update: update });
+    const game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser', { preload: preload, create: create, update: update, render: render });
 
     let player;
     let cursors;
-    let bullets;
-    let bullet;
     let fireButton;
-    let bulletTime = 0;
-
-    let enemy;
+    let weapon;
 
 
     function preload() {
         game.load.image('player', '../img/game/tank.png');
-        game.load.image('bullet', 'https://examples.phaser.io/assets/games/invaders/bullet.png');
+        game.load.image('bullet', '../img/game/bullet.png');
     }
 
     function create() {
         player = game.add.sprite(500, 300, 'player');
         player.scale.setTo(.1, .1);
         player.anchor.setTo(0.5, 0.5);
-        player.physicsBodyType = Phaser.Physics.ARCADE;
+        player.angle = 270;
+
+        game.physics.arcade.enable(player);
 
         cursors = game.input.keyboard.createCursorKeys();
         fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-        bullets = game.add.group();
-        bullets.enableBody = true;
-        bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        bullets.createMultiple(30, 'bullet');
-        bullets.setAll('anchor.x', 0.5);
-        bullets.setAll('anchor.y', 1);
-        bullets.setAll('outOfBoundsKill', true);
-        bullets.setAll('checkWorldBounds', true);
+        weapon = game.add.weapon(1, 'bullet');
+        weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        weapon.bulletAngleOffset = 90;
+        weapon.bulletSpeed = 400;
+        weapon.trackSprite(player, 0, 0, false);
+
+        weapon.fireAngle = player.angle + 90;
+        weapon.trackRotation = false
+
+
     }
 
     function update() {
+
         if (cursors.up.isDown) {
             player.y -= 4;
-            player.rotation = 3.14;
-
-            console.log(cursors.up);
+            player.angle = 180;
+            weapon.fireAngle = 270;
         } else if (cursors.down.isDown) {
             player.y += 4;
-            player.rotation = 0;
+            player.angle = 0;
+            weapon.fireAngle = 90;
         } else if (cursors.left.isDown) {
             player.x -= 4;
-            player.rotation = 1.58;
+            player.angle = 90;
+            weapon.fireAngle = 180;
         } else if (cursors.right.isDown) {
             player.x += 4;
-            player.rotation = 4.72;
+            player.angle = 270;
+            weapon.fireAngle = 360;
         }
 
         if (fireButton.isDown) {
-            fireBullet();
+            weapon.fire()
         }
     }
 
-    
-    function fireBullet() {
-        if (game.time.now > bulletTime) {
-            bullet = bullets.getFirstExists(false);
 
-            if (bullet) {
-                bullet.reset(player.x, player.y + 8);
-                bullet.body.velocity.y = -400;
-                bulletTime = game.time.now + 200;
-            }
-        }
-
+    function render() {
     }
-
 
 }
