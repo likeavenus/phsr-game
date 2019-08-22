@@ -6,6 +6,8 @@ export default function game() {
     let fireButton;
     let weapon;
 
+    let enemy;
+
 
     function preload() {
         game.load.image('player', '../img/game/tank.png');
@@ -13,10 +15,13 @@ export default function game() {
     }
 
     function create() {
+        game.world.setBounds(0, 0, 800, 600);
+
         player = game.add.sprite(500, 300, 'player');
         player.scale.setTo(.1, .1);
         player.anchor.setTo(0.5, 0.5);
         player.angle = 270;
+        player.enableBody = true;
 
         game.physics.arcade.enable(player);
 
@@ -30,12 +35,24 @@ export default function game() {
         weapon.trackSprite(player, 0, 0, false);
 
         weapon.fireAngle = player.angle + 90;
-        weapon.trackRotation = false
+
+        enemy = game.add.sprite(100, 100, 'player');
+        enemy.scale.setTo(.1, .1);
+        enemy.anchor.setTo(0.5, 0.5);
+        enemy.angle = 270;
+        enemy.enableBody = true;
+        game.physics.arcade.enable(enemy);
+
 
 
     }
 
+    function killThem(player, enemy) {
+        enemy.kill();
+    }
+
     function update() {
+        game.physics.arcade.collide(weapon.bullets, enemy, killThem);
 
         if (cursors.up.isDown) {
             player.y -= 4;
@@ -62,6 +79,7 @@ export default function game() {
 
 
     function render() {
+        weapon.debug()
     }
 
 }
