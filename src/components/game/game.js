@@ -92,6 +92,8 @@ export default function game() {
         game.physics.arcade.collide(weapon2.bullets, player, killThem);
 
 
+
+
         if (cursors.up.isDown) {
             player.y -= 4;
             player.angle = 180;
@@ -113,13 +115,6 @@ export default function game() {
         if (fireButton.isDown) {
             weapon.fire()
         }
-
-
-
-
-
-
-
 
 
         if (controls.up.isDown) {
