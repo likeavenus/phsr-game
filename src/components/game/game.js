@@ -18,7 +18,6 @@ export default function game() {
 
     function create() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
-
         game.world.setBounds(0, 0, 800, 600);
 
         player = game.add.sprite(500, 300, 'player');
@@ -26,8 +25,6 @@ export default function game() {
         player.anchor.setTo(0.5, 0.5);
         player.angle = 270;
         player.enableBody = true;
-
-
 
         cursors = game.input.keyboard.createCursorKeys();
 
@@ -40,16 +37,7 @@ export default function game() {
         weapon.trackSprite(player, 0, 0, false);
         weapon.fireAngle = player.angle + 90;
 
-
-
-
-
-
-
-
-
-
-        enemy = game.add.sprite(100, 100, 'player');
+        enemy = game.add.sprite(500, 100, 'player');
         enemy.scale.setTo(.1, .1);
         enemy.anchor.setTo(0.5, 0.5);
         enemy.angle = 270;
@@ -76,8 +64,12 @@ export default function game() {
 
         game.physics.arcade.enable(player);
         game.physics.arcade.enable(enemy);
-        player.body.immovable = true;
-        enemy.body.immovable = true;
+
+        player.body.collideWorldBounds = true;
+        enemy.body.collideWorldBounds = true;
+
+        console.log(player);
+
     }
 
     function killThem(enemy,  bullet) {
@@ -87,30 +79,44 @@ export default function game() {
 
     }
 
+    function collisionHandler () {
+        //nothing goes here
+    }
+
     function update() {
         game.physics.arcade.collide(weapon.bullets, enemy, killThem);
         game.physics.arcade.collide(weapon2.bullets, player, killThem);
 
+        game.physics.arcade.collide(player, enemy, collisionHandler, null, this);
 
 
 
         if (cursors.up.isDown) {
-            player.y -= 4;
+            player.body.velocity.x = 0;
+            player.body.velocity.y -= 4;
             player.angle = 180;
             weapon.fireAngle = 270;
         } else if (cursors.down.isDown) {
-            player.y += 4;
+            player.body.velocity.x = 0;
+            player.body.velocity.y += 4;
             player.angle = 0;
             weapon.fireAngle = 90;
         } else if (cursors.left.isDown) {
-            player.x -= 4;
+            player.body.velocity.y = 0;
+            player.body.velocity.x -= 4;
             player.angle = 90;
             weapon.fireAngle = 180;
         } else if (cursors.right.isDown) {
-            player.x += 4;
+            player.body.velocity.y = 0;
+            player.body.velocity.x += 4;
             player.angle = 270;
             weapon.fireAngle = 360;
+        } else {
+            player.body.velocity.x = 0;
+            player.body.velocity.y = 0;
         }
+
+
 
         if (fireButton.isDown) {
             weapon.fire()
