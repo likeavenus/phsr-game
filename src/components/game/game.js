@@ -93,22 +93,22 @@ export default function game() {
 
         if (cursors.up.isDown) {
             player.body.velocity.x = 0;
-            player.body.velocity.y = -170;
+            player.body.velocity.y = -200;
             player.angle = 180;
             weapon.fireAngle = 270;
         } else if (cursors.down.isDown) {
             player.body.velocity.x = 0;
-            player.body.velocity.y = 170;
+            player.body.velocity.y = 200;
             player.angle = 0;
             weapon.fireAngle = 90;
         } else if (cursors.left.isDown) {
             player.body.velocity.y = 0;
-            player.body.velocity.x = -170;
+            player.body.velocity.x = -200;
             player.angle = 90;
             weapon.fireAngle = 180;
         } else if (cursors.right.isDown) {
             player.body.velocity.y = 0;
-            player.body.velocity.x = 170;
+            player.body.velocity.x = 200;
             player.angle = 270;
             weapon.fireAngle = 360;
         } else {
@@ -124,21 +124,28 @@ export default function game() {
 
 
         if (controls.up.isDown) {
-            enemy.y -= 4;
+            enemy.body.velocity.x = 0;
+            enemy.body.velocity.y = -200;
             enemy.angle = 180;
             weapon2.fireAngle = 270;
         } else if (controls.down.isDown) {
-            enemy.y += 4;
+            enemy.body.velocity.x = 0;
+            enemy.body.velocity.y = 200;
             enemy.angle = 0;
             weapon2.fireAngle = 90;
         } else if (controls.left.isDown) {
-            enemy.x -= 4;
+            enemy.body.velocity.y = 0;
+            enemy.body.velocity.x = -200;
             enemy.angle = 90;
             weapon2.fireAngle = 180;
         } else if (controls.right.isDown) {
-            enemy.x += 4;
+            enemy.body.velocity.y = 0;
+            enemy.body.velocity.x = 200;
             enemy.angle = 270;
             weapon2.fireAngle = 360;
+        }  else {
+            enemy.body.velocity.x = 0;
+            enemy.body.velocity.y = 0;
         }
 
 
