@@ -1,9 +1,9 @@
-{
+  {
   "name": "gulp2018",
   "version": "1.0.0",
   "author": "",
   "main": "gulpfile.js",
-  "repository": "",
+  "repository": "https://github.com/likeavenus/phsr-game",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -45,7 +45,11 @@
     "webpack-stream": "^5.2.1"
   },
   "dependencies": {
+    "gh-pages": "^2.2.0",
     "jquery": "^3.3.1",
     "normalize-scss": "^7.0.1"
+  },
+  "scripts": {
+    "deploy": "gh-pages -d build"
   }
 }
