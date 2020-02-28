@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "",
   "main": "gulpfile.js",
-  "repository": "https://github.com/likeavenus/phsr-game",
+  "repository": "https://github.com/likeavenus/phsr-game/",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.2.2",
